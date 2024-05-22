@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volume Radial Indicator</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #282c34;
+    }
+    canvas {
+      display: block;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    let volume = 50;
+    let targetVolume = 50;
+    let easing = 0.1;
+    let colorR = 255;
+    let colorG = 0;
+    let colorB = 0;
+    function setup() {
+      createCanvas(400, 400);
+      frameRate(60);
+      const socket = io();
+      socket.on('volume', (newVolume) => {
+        console.log(`Received volume: ${newVolume}`);
+        targetVolume = newVolume !== null ? newVolume : 0;
+        colorR = map(targetVolume, 0, 100, 0, 255);
+        colorG = map(targetVolume, 0, 100, 255, 0);
+        colorB = 0;
+      });
+    }
+    function draw() {
+      background(40);
+      volume = lerp(volume, targetVolume, easing);
+      let angle = map(volume, 0, 100, 0, TWO_PI);
+      noFill();
+      stroke(colorR, colorG, colorB);
+      strokeWeight(10);
+      arc(width / 2, height / 2, 300, 300, -HALF_PI, angle - HALF_PI);
+      noStroke();
+      fill(255);
+      textAlign(CENTER, CENTER);
+      textSize(32);
+      text(Math.round(volume) + '%', width / 2, height / 2);
+    }
+  </script>
+</body>
+</html>

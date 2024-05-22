@@ -1,0 +1,20 @@
+{
+  "name": "radialvolumecontrol",
+  "version": "1.0.0",
+  "description": "Displays your volume in a radial format!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js"
+  },
+  "author": "Rep",
+  "type": "module",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "http": "^0.0.1-security",
+    "loudness": "^0.4.2",
+    "socket.io": "^4.7.5",
+    "systeminformation": "^5.22.9"
+  }
+}
